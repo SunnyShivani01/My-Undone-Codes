@@ -1,0 +1,80 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DataStructures;
+
+namespace Question5
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            string Filename = "Data.BIN";
+            //CreateFileWithRandomData(Filename);
+
+            Console.WriteLine("Unsorted Data:");
+            PrintFileData(Filename);
+
+
+            File_HeapSort(Filename);
+
+            Console.WriteLine("Sorted Data:");
+            PrintFileData(Filename);
+
+            Console.ReadLine();
+        }
+
+        static void File_HeapSort(string Filename)
+        {
+            FileStream F = new FileStream(Filename, FileMode.Open);
+            int L = (int)F.Length / 4;
+
+            //===================================
+            //ToDo: Supply the missing code here
+            //===================================
+
+            F.Close();
+        }
+
+        static void PrintFileData(string Filename)
+        {
+            FileStream F = new FileStream(Filename, FileMode.Open);
+            int L = (int)F.Length / 4;
+
+            byte[] B = new byte[4];
+            for(int i=0; i<L; i++)
+            {
+                F.Read(B, 0, 4);
+                int N = BitConverter.ToInt32(B,0);
+                Console.Write("{0,10}", N);
+            }
+
+            Console.WriteLine(Environment.NewLine);
+            F.Close();
+        }
+
+
+        static void CreateFileWithRandomData(string Filename)
+        {
+            Random R = new Random();
+
+            FileStream F = new FileStream(Filename, FileMode.Create);
+
+            for (int i = 0; i < 1000; i++)
+            {
+                int N = R.Next(1, 10000000);
+                F.Write(BitConverter.GetBytes(N),0,4);
+                Console.WriteLine(N);
+            }
+
+            F.Close();
+
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
+        }
+    }
+}
